@@ -25,18 +25,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun setClickBtns() {
         with(binding) {
-            btnLoad.setOnClickListener {
-                viewModel.valueList.observe(this@MainActivity) {
-                    result.text = it[0].value
-                }
-            }
-
             btnSave.setOnClickListener {
                 val edText = editText.text.toString()
                 if (edText.isNotEmpty()) {
                     viewModel.saveValue(DBModel(0, edText))
-                }else{
+                } else {
                     editText.error = "Заполните поле"
+                }
+            }
+            btnLoad.setOnClickListener {
+                viewModel.valueList.observe(this@MainActivity) {
+                    result.text = it.value
                 }
             }
         }

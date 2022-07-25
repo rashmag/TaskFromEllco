@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "remote_db")
 data class MainModel(
-    @PrimaryKey(autoGenerate = true)
-    val id:Int,
+    @PrimaryKey(autoGenerate = false)
+    val id:Int = 0,
     var value: String
 )

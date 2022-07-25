@@ -10,9 +10,9 @@ import com.example.taskfromellco.domain.repository.DataRep
 class DataRepImpl(application: Application) : DataRep {
     private val mainDao = MainDataBase.getInstance(application).mainDao()
     private val mapper = MainMapper()
-    override fun loadData(): LiveData<List<DBModel>> = MediatorLiveData<List<DBModel>>().apply {
+    override fun loadData(): LiveData<DBModel> = MediatorLiveData<DBModel>().apply {
         addSource(mainDao.getAllData()){
-            postValue(mapper.mapListMainModelToListEntity(it))
+            postValue(mapper.mapMainModelToDBModel(it))
         }
     }
 

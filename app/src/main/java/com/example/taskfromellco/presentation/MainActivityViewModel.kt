@@ -21,8 +21,8 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     val valueList = loadDataUseCase.invoke()
 
-    private var _value = MutableLiveData<List<MainModel>>()
-    val value: LiveData<List<MainModel>> get() = _value
+    private var _value = MutableLiveData<MainModel>()
+    val value: LiveData<MainModel> get() = _value
 
     fun saveValue(value: DBModel) {
         coroutines.launch {

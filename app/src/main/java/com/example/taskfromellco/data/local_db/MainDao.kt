@@ -13,5 +13,5 @@ interface MainDao {
     fun saveValue(mainModel: MainModel)
 
     @Query("SELECT * FROM remote_db")
-    fun getAllData(): LiveData<List<MainModel>>
+    fun getAllData(): LiveData<MainModel>
 }

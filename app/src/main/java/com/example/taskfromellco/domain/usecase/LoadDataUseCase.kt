@@ -5,5 +5,5 @@ import com.example.taskfromellco.domain.model.DBModel
 import com.example.taskfromellco.domain.repository.DataRep
 
 class LoadDataUseCase (private val dataRep: DataRep){
-    operator fun invoke():LiveData<List<DBModel>> = dataRep.loadData()
+    operator fun invoke():LiveData<DBModel> = dataRep.loadData()
 }
