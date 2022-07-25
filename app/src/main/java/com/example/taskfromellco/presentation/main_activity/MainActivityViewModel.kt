@@ -1,4 +1,4 @@
-package com.example.taskfromellco.presentation
+package com.example.taskfromellco.presentation.main_activity
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

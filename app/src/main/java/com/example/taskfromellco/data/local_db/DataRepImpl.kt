@@ -16,5 +16,5 @@ class DataRepImpl(application: Application) : DataRep {
         }
     }
 
-    override fun saveData(value: DBModel)= mainDao.saveValue(mapper.mapDBModelToMainModel(value))
+    override fun saveData(value: DBModel) = mainDao.saveValue(mapper.mapDBModelToMainModel(value))
 }
