@@ -6,17 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentListBinding
+import com.example.taskfromellco.utils.SpaceItemDecoration
 
 class ListFragment : Fragment() {
 
     lateinit var binding: FragmentListBinding
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val viewModel by lazy {
         ViewModelProvider(this).get(ListViewModel::class.java)
     }
@@ -27,8 +23,12 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
-        setupRecyclerView()
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
     }
 
 

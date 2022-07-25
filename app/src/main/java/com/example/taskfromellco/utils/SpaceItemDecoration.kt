@@ -1,4 +1,4 @@
-package com.example.taskfromellco.presentation.list
+package com.example.taskfromellco.utils
 
 import android.graphics.Rect
 import android.view.View
@@ -16,8 +16,8 @@ class SpaceItemDecoration(
         outRect.left = left.orZero()
 
         // Добавление верхнего спэйса только для первого элемента
-        if (parent.getChildAdapterPosition(view) == 0) {
-            outRect.top = space
-        }
+//        if (parent.getChildAdapterPosition(view) == 0) {
+//            outRect.top = space
+//        }
     }
 }
