@@ -1,18 +1,16 @@
 package com.example.taskfromellco.presentation.favorite
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.taskfromellco.utils.ViewModelFactory
 import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentFavoriteBinding
-import com.example.taskfromellco.domain.model.ArticalDomainModel
+import com.example.taskfromellco.utils.SpaceItemDecoration
+import com.example.taskfromellco.utils.ViewModelFactory
 import javax.inject.Inject
-import kotlin.concurrent.thread
 
 class FavoriteFragment : Fragment() {
 
@@ -45,24 +43,30 @@ class FavoriteFragment : Fragment() {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         component.inject(this)
 
-        setupSearchView()
         return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupSearchView()
+        setupRV()
     }
 
     private fun setupSearchView() {
         viewModel.setupSearchView(binding.searchViewFavorite,adapterFavorite)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupRV()
-    }
-
     private fun setupRV() {
         with(binding.rvFavorite) {
             adapter = adapterFavorite
             setHasFixedSize(true)
+            addItemDecoration(SpaceItemDecoration(
+                MARGIN_SPACING_VALUE_34,
+                MARGIN_LEFT_VALUE_34,
+                MARGIN_RIGHT_VALUE_34
+            ))
         }
 
         getAllList()
@@ -71,5 +75,10 @@ class FavoriteFragment : Fragment() {
         viewModel.loadAllList{
             adapterFavorite.submitList(it)
         }
+    }
+    companion object{
+        private const val MARGIN_SPACING_VALUE_34 = 34
+        private const val MARGIN_LEFT_VALUE_34 = 10
+        private const val MARGIN_RIGHT_VALUE_34 = 10
     }
 }

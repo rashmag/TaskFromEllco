@@ -2,11 +2,12 @@ package com.example.taskfromellco.presentation.favorite
 
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.taskfromellco.domain.model.ArticalDomainModel
 import com.example.taskfromellco.domain.usecase.DeleteDataUseCase
 import com.example.taskfromellco.domain.usecase.LoadDataUseCase
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.concurrent.thread
 
 class FavoriteViewModel @Inject constructor(
     private val loadDataUseCase: LoadDataUseCase,
@@ -16,7 +17,7 @@ class FavoriteViewModel @Inject constructor(
     fun setupSearchView(searchViewFavorite: SearchView, adapterFavorite: AdapterFavorite) {
         searchViewFavorite.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
-                thread {
+                viewModelScope.launch {
                     loadAllList {
                         adapterFavorite.submitList(it)
                     }
@@ -28,11 +29,11 @@ class FavoriteViewModel @Inject constructor(
         val articalDomainModel = arrayListOf<ArticalDomainModel>()
         searchViewFavorite.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                thread {
+                viewModelScope.launch {
                     loadAllList {
                         it.forEach {
-                            if ((it.author?.toLowerCase()).equals(query?.toLowerCase())) {
-//                            Log.d("test1","size = ${it.author?.toLowerCase()} = ${query?.toLowerCase()}")
+                            if ((it.author?.lowercase()).equals(query?.lowercase())) {
+                                articalDomainModel.clear()
                                 articalDomainModel.add(it)
                             }
                         }
@@ -49,12 +50,12 @@ class FavoriteViewModel @Inject constructor(
     }
 
     fun loadAllList(articalDomainModel: (List<ArticalDomainModel>) -> Unit) {
-        thread { articalDomainModel.invoke(loadDataUseCase.invoke()) }
+        viewModelScope.launch { articalDomainModel.invoke(loadDataUseCase.invoke()) }
     }
 
 
     fun deleteArticle(articalDomainModel: ArticalDomainModel, selectResult: (Int) -> Unit) {
-        thread {
+        viewModelScope.launch {
             selectResult.invoke(deleteDataUseCase.invoke(articalDomainModel))
         }
     }

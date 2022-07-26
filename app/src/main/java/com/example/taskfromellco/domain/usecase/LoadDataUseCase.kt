@@ -6,5 +6,5 @@ import com.example.taskfromellco.domain.repository.DataRep
 import javax.inject.Inject
 
 class LoadDataUseCase @Inject constructor(private val dataRep: DataRep) {
-    operator fun invoke(): List<ArticalDomainModel> = dataRep.loadData()
+    suspend operator fun invoke(): List<ArticalDomainModel> = dataRep.loadData()
 }

@@ -5,5 +5,5 @@ import com.example.taskfromellco.domain.repository.DataRep
 import javax.inject.Inject
 
 class SaveDataUseCase @Inject constructor(private val dataRep: DataRep){
-    operator fun invoke(value: ArticalDomainModel) = dataRep.saveData(value)
+    suspend operator fun invoke(value: ArticalDomainModel) = dataRep.saveData(value)
 }

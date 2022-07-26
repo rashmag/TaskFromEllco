@@ -9,7 +9,6 @@ interface RestService {
     @GET("/v2/top-headlines")
     fun getAllNews(
         @Query("country") countryCode: String = "ru",
-//        @Query("q") query:String,
         @Query("apiKey")apiKey:String = ApiClient.API_KEY
     ):Call<NewsResponce>
 

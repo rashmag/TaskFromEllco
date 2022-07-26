@@ -27,9 +27,7 @@ class ListFragment : Fragment() {
                 .replace(
                     R.id.container_fragment,
                     OneElementListFragment.newInstance(it)
-                )
-                .addToBackStack(null)
-                .commit()
+                ).addToBackStack(null).commit()
         }
     }
 
@@ -66,20 +64,12 @@ class ListFragment : Fragment() {
             )
             setHasFixedSize(true)
         }
-        adapterMain.submitList(createList())
-    }
-
-    private fun createList(): ArrayList<ListModel> {
-        val arrayList: ArrayList<ListModel> = arrayListOf()
-        repeat(20) {
-            arrayList.add(ListModel(R.drawable.ic_launcher_background, "Название $it"))
-        }
-        return arrayList
+        adapterMain.submitList(viewModel.createList())
     }
 
     companion object {
-        const val MARGIN_SPACING_VALUE_34 = 34
-        const val MARGIN_LEFT_VALUE_34 = 10
-        const val MARGIN_RIGHT_VALUE_34 = 10
+        private const val MARGIN_SPACING_VALUE_34 = 34
+        private const val MARGIN_LEFT_VALUE_34 = 10
+        private const val MARGIN_RIGHT_VALUE_34 = 10
     }
 }

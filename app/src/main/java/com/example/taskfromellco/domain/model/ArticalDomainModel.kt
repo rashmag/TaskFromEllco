@@ -6,7 +6,7 @@ data class ArticalDomainModel(
     val content: String,
     val description: String,
     val publishedAt: String,
-//    val source: SourceDomainModel,
+//    val source: Source,
     val title: String,
     val url: String,
     val urlToImage: String,

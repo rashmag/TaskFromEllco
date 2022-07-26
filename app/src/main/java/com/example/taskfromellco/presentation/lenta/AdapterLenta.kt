@@ -1,8 +1,6 @@
 package com.example.taskfromellco.presentation.lenta
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,12 +16,10 @@ import com.example.taskfromellco.utils.MainMapper
 class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
     ListAdapter<ArticleModel, AdapterLenta.ViewHolder>(DIFF_UTIL) {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemRecyclerViewBinding.bind(view)
-
+    inner class ViewHolder(private val binding: ItemRecyclerViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(item: ArticleModel) = with(binding) {
             nameItem.text = item.author
-            Log.d("test1","${item.source.id}")
             descriptionItem.text = item.description
             Glide.with(binding.root)
                 .load(item.urlToImage)
@@ -42,10 +38,9 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_recycler_view, parent, false)
-        return ViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+     ViewHolder(ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -62,9 +57,7 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
                 oldItem.author == newItem.author && oldItem.urlToImage == newItem.urlToImage &&
                 oldItem.content == newItem.content && oldItem.publishedAt == newItem.publishedAt &&
                 oldItem.url == newItem.url && oldItem.title == newItem.title
-
             }
-
         }
     }
 }

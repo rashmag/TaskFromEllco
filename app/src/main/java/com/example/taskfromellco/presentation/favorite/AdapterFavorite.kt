@@ -1,8 +1,6 @@
 package com.example.taskfromellco.presentation.favorite
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,16 +13,12 @@ import com.example.taskfromellco.domain.model.ArticalDomainModel.Companion.EMPTY
 
 class AdapterFavorite(
     private val removeFavorite: (ArticalDomainModel) -> Unit
-) :
-    ListAdapter<ArticalDomainModel, AdapterFavorite.ViewHolder>(DIFF_UTIL) {
+) : ListAdapter<ArticalDomainModel, AdapterFavorite.ViewHolder>(DIFF_UTIL) {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val binding = ItemRecyclerViewBinding.bind(view)
-
+    inner class ViewHolder(private val binding: ItemRecyclerViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(
             item: ArticalDomainModel
-        ) =
-            with(binding) {
+        ) = with(binding) {
                 nameItem.text = item.author ?: EMPTY_NAME
                 descriptionItem.text = item.description
                 dateItem.text = String.format(
@@ -39,29 +33,17 @@ class AdapterFavorite(
                     favotireItem.setImageDrawable(favotireItem.context.getDrawable(R.drawable.not_active_favorite))
                 }
                 favotireItem.setOnClickListener {
-                    Log.d("test3","item.id = ${item.id}")
-//                    if (item.isFavorite) {
-//                        favotireitem.setImageDrawable(favotireitem.context.getDrawable(R.drawable.active_favorite))
-//                        item.isFavorite = true
-//                        removeFavorite.invoke(item)
-//                    } else {
-//                        favotireitem.setImageDrawable(favotireitem.context.getDrawable(R.drawable.not_active_favorite))
-//                        item.isFavorite = false
                         removeFavorite.invoke(item)
-//                    }
                 }
             }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_recycler_view, parent, false)
-        return ViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
-        Log.d("test1","onBindViewholde Favorite")
     }
 
     companion object {
@@ -83,7 +65,6 @@ class AdapterFavorite(
                 oldItem.url == newItem.url && oldItem.title == newItem.title &&
                 oldItem.urlToImage == newItem.urlToImage
             }
-
         }
     }
 }

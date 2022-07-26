@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 class SplashScreen : AppCompatActivity() {
     lateinit var binding: ActivitySplashScreenBinding
-    val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +23,9 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun setTime() {
-        coroutineScope.launch {
+        CoroutineScope(Dispatchers.Main).launch {
             try {
-                delay(500)
+                delay(700)
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {

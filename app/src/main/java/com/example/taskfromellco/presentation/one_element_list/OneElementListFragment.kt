@@ -25,10 +25,6 @@ class OneElementListFragment : Fragment() {
 
     private var listModel:ListModel? = null
 
-//    private val viewModel by lazy {
-//        ViewModelProvider(this).get(ListViewModel::class.java)
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

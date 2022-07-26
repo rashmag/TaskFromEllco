@@ -11,7 +11,6 @@ class MainMapper {
         author = articalDomainModel.author ?: ArticalDomainModel.EMPTY_NAME,
         content = articalDomainModel.content,
         description = articalDomainModel.description,
-//        source = mapSourceDomainModelToSource(articalDomainModel.source),
         title = articalDomainModel.title,
         url = articalDomainModel.url,
         urlToImage = articalDomainModel.urlToImage,
@@ -23,7 +22,6 @@ class MainMapper {
         author = articalDomainModel.author ?: ArticalDomainModel.EMPTY_NAME,
         content = articalDomainModel.content,
         description = articalDomainModel.description,
-//        source = mapSourceDomainModelToSource(articalDomainModel.source),
         title = articalDomainModel.title,
         url = articalDomainModel.url,
         urlToImage = articalDomainModel.urlToImage,
@@ -38,7 +36,6 @@ class MainMapper {
             author = mainModelEntity.author,
             content = mainModelEntity.content,
             description = mainModelEntity.description,
-//        source = mapSourceToSourceDomainModel(mainModelEntity.source),
             title = mainModelEntity.title,
             url = mainModelEntity.url,
             urlToImage = mainModelEntity.urlToImage,
@@ -51,7 +48,6 @@ class MainMapper {
         author = articleModel.author,
         content = articleModel.content,
         description = articleModel.description,
-//        source = mapSourceToSourceDomainModel(articleModel.source),
         title = articleModel.title,
         url = articleModel.url,
         urlToImage = articleModel.urlToImage,
@@ -61,17 +57,5 @@ class MainMapper {
 
     fun mapListMainModelToListEntity(list: List<MainModelEntity>) = list.map {
         mapMainModelToArticalDomainModel(it)
-    }
-//    fun mapSourceToSourceDomainModel(source: Source): SourceDomainModel = SourceDomainModel(
-//        id = source.id,
-//        name = source.name
-//    )
-//    fun mapSourceDomainModelToSource(sourceDomainModel: SourceDomainModel): Source = Source(
-//        id = sourceDomainModel.id,
-//        name = sourceDomainModel.name
-//    )
-
-    companion object{
-        private const val UNDEFINED = -1
     }
 }

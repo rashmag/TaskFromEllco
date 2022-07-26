@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.taskfromellco.utils.ViewModelFactory
 import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentLentaBinding
-import com.example.taskfromellco.presentation.list.ListFragment
 import com.example.taskfromellco.utils.SpaceItemDecoration
+import com.example.taskfromellco.utils.ViewModelFactory
+import com.example.taskfromellco.utils.gone
+import com.example.taskfromellco.utils.visible
 import javax.inject.Inject
 
 class LentaFragment : Fragment() {
@@ -20,11 +21,12 @@ class LentaFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModel by lazy {
-        ViewModelProvider(this,viewModelFactory)[LentaViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[LentaViewModel::class.java]
     }
 
-    private val adapterMain = AdapterLenta{
+    private val adapterMain = AdapterLenta {
         viewModel.saveArticleModel(it)
     }
 
@@ -39,12 +41,10 @@ class LentaFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentLentaBinding.inflate(inflater, container, false)
         component.inject(this)
 
 
-        setupRV()
         getData()
         setupSearchView()
         visivilityProgress()
@@ -52,7 +52,7 @@ class LentaFragment : Fragment() {
     }
 
     private fun visivilityProgress() {
-        binding.progressLenta.visibility = View.VISIBLE
+        binding.progressLenta.visible()
     }
 
     private fun getData() {
@@ -60,31 +60,30 @@ class LentaFragment : Fragment() {
             adapter = adapterMain
             addItemDecoration(
                 SpaceItemDecoration(
-                    ListFragment.MARGIN_SPACING_VALUE_34,
-                    ListFragment.MARGIN_LEFT_VALUE_34,
-                    ListFragment.MARGIN_RIGHT_VALUE_34
+                    MARGIN_SPACING_VALUE_34,
+                    MARGIN_LEFT_VALUE_34,
+                    MARGIN_RIGHT_VALUE_34
                 )
             )
             setHasFixedSize(true)
-            viewModel.getAllNews{
-                adapterMain.submitList(it)
-                binding.progressLenta.visibility = View.GONE
-            }
         }
-
+        viewModel.getAllNewsRetrofit {
+            adapterMain.submitList(it)
+            binding.progressLenta.gone()
+        }
     }
 
     private fun setupSearchView() {
-        binding.searchLenta.setOnCloseListener(object : SearchView.OnCloseListener{
+        binding.searchLenta.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
-                viewModel.getAllNews {
+                viewModel.getAllNewsRetrofit {
                     adapterMain.submitList(it)
-                    binding.progressLenta.visibility = View.GONE
+                    binding.progressLenta.gone()
                 }
                 return false
             }
         })
-        binding.searchLenta.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchLenta.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 viewModel.searchQuery(query ?: "") {
                     adapterMain.submitList(it)
@@ -98,11 +97,9 @@ class LentaFragment : Fragment() {
         })
     }
 
-    private fun setupRV() {
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    companion object {
+        private const val MARGIN_SPACING_VALUE_34 = 34
+        private const val MARGIN_LEFT_VALUE_34 = 10
+        private const val MARGIN_RIGHT_VALUE_34 = 10
     }
 }

@@ -14,8 +14,6 @@ data class MainModelEntity(
     val content: String,
     val description: String,
     val publishedAt: String,
-//    @TypeConverters(SourceConverter::class)
-//    val source: Source,
     val title: String,
     val url: String,
     val urlToImage: String,

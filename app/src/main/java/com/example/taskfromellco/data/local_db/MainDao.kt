@@ -5,11 +5,11 @@ import androidx.room.*
 @Dao
 interface MainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveValue(mainModelEntity: MainModelEntity)
+    suspend fun saveValue(mainModelEntity: MainModelEntity)
 
     @Query("SELECT * FROM remote_db")
-    fun getAllData(): List<MainModelEntity>
+    suspend fun getAllData(): List<MainModelEntity>
 
     @Delete
-    fun deleteUser(mainModelEntity: MainModelEntity?):Int
+    suspend fun deleteUser(mainModelEntity: MainModelEntity?):Int
 }

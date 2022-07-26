@@ -2,40 +2,39 @@ package com.example.taskfromellco.presentation.lenta
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.taskfromellco.data.remote_db.*
+import androidx.lifecycle.viewModelScope
+import com.example.taskfromellco.data.remote_db.ApiClient
+import com.example.taskfromellco.data.remote_db.ArticleModel
+import com.example.taskfromellco.data.remote_db.NewsResponce
 import com.example.taskfromellco.domain.model.ArticalDomainModel
-import com.example.taskfromellco.domain.usecase.LoadDataUseCase
 import com.example.taskfromellco.domain.usecase.SaveDataUseCase
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
-import kotlin.concurrent.thread
 
 class LentaViewModel @Inject constructor(
-    private val saveDataUseCase: SaveDataUseCase
-    ) : ViewModel() {
-    private val scope = CoroutineScope(Dispatchers.IO)
-
+    private val saveDataUseCase: SaveDataUseCase,
+) : ViewModel() {
     fun saveArticleModel(articalDomainModel: ArticalDomainModel) {
-        thread {
+        viewModelScope.launch {
             saveDataUseCase.invoke(articalDomainModel)
         }
     }
 
-    fun getAllNews(callback: (List<ArticleModel>) -> Unit) {
-        thread {
+    fun getAllNewsRetrofit(callback: (List<ArticleModel>) -> Unit) {
+        viewModelScope.launch {
             ApiClient.getClient().getAllNews("ru", ApiClient.API_KEY).enqueue(object :
                 Callback<NewsResponce> {
                 override fun onResponse(
                     call: Call<NewsResponce>,
                     response: Response<NewsResponce>
                 ) {
-                    val responseBody = response.body()!!
+                    val articles = response.body()?.articles
 
-                    if (response.isSuccessful && responseBody.articles.isNotEmpty() == true) {
-                        callback.invoke(responseBody.articles)
+                    if (response.isSuccessful && articles?.isNotEmpty() == true) {
+                        callback.invoke(articles)
                     } else {
                         Log.d("test1", "not result")
                     }
@@ -49,17 +48,17 @@ class LentaViewModel @Inject constructor(
     }
 
     fun searchQuery(query: String, callback: (List<ArticleModel>) -> Unit) {
-        thread {
+        viewModelScope.launch {
             ApiClient.getClient().getSearchNews("ru", query, ApiClient.API_KEY).enqueue(object :
                 Callback<NewsResponce> {
                 override fun onResponse(
                     call: Call<NewsResponce>,
                     response: Response<NewsResponce>
                 ) {
-                    val responseBody = response.body()!!
+                    val articles = response.body()?.articles
 
-                    if (response.isSuccessful && responseBody.articles.isNotEmpty() == true) {
-                        callback.invoke(responseBody.articles)
+                    if (response.isSuccessful && articles?.isNotEmpty() == true) {
+                        callback.invoke(articles)
                     } else {
                         Log.d("test1", "not result search $query")
                     }

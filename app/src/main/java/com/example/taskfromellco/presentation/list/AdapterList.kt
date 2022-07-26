@@ -8,13 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.ItemListBinding
-import com.example.taskfromellco.databinding.ItemRecyclerViewBinding
 
-class AdapterList(private val onClick: (ListModel) -> Unit) : ListAdapter<ListModel, AdapterList.ViewHolder>(DIFF_UTIL) {
+class AdapterList(private val onClick: (ListModel) -> Unit) : ListAdapter<ListModel, AdapterList.ViewHolder>(DIFF_CALLBACK) {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        val binding = ItemListBinding.bind(view)
-
+    inner class ViewHolder(private val binding: ItemListBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(item: ListModel) = with(binding){
             nameListTv.text = item.value
             imgItem.setImageResource(item.img)
@@ -25,17 +22,15 @@ class AdapterList(private val onClick: (ListModel) -> Unit) : ListAdapter<ListMo
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list, parent, false)
-        return ViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(ItemListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
     companion object{
-        private val DIFF_UTIL = object : DiffUtil.ItemCallback<ListModel>(){
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<ListModel>(){
             override fun areItemsTheSame(oldItem: ListModel, newItem: ListModel): Boolean {
                 return oldItem == newItem
             }
@@ -43,7 +38,6 @@ class AdapterList(private val onClick: (ListModel) -> Unit) : ListAdapter<ListMo
             override fun areContentsTheSame(oldItem: ListModel, newItem: ListModel): Boolean {
                 return oldItem.value == newItem.value
             }
-
         }
     }
 }
