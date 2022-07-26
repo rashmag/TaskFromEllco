@@ -16,8 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskFromEllco"
         tools:targetApi="31">
+        <activity android:name=".presentation.main_activity.MainActivity"
+            android:exported="false"/>
         <activity
-            android:name=".presentation.main_activity.MainActivity"
+            android:name="com.example.mydsu.presentation.splash_screen.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

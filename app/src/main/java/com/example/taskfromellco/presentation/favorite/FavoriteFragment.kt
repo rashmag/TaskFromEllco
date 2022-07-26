@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.application.mydsu.presentation.main_activity.ViewModelFactory
+import com.example.taskfromellco.utils.ViewModelFactory
 import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentFavoriteBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.concurrent.thread
 

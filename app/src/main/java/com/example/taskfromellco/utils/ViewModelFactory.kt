@@ -1,8 +1,7 @@
-package com.application.mydsu.presentation.main_activity
+package com.example.taskfromellco.utils
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.taskfromellco.utils.AppScope
 import javax.inject.Inject
 import javax.inject.Provider
 

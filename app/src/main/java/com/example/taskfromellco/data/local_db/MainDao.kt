@@ -1,17 +1,15 @@
 package com.example.taskfromellco.data.local_db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.taskfromellco.data.utils.MainModel
 
 @Dao
 interface MainDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveValue(mainModel: MainModel)
+    fun saveValue(mainModelEntity: MainModelEntity)
 
     @Query("SELECT * FROM remote_db")
-    fun getAllData(): List<MainModel>
+    fun getAllData(): List<MainModelEntity>
 
     @Delete
-    fun deleteUser(mainModel: MainModel?)
+    fun deleteUser(mainModelEntity: MainModelEntity?)
 }

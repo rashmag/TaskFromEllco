@@ -31,9 +31,11 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
                 item.publishedAt.substring(0, 10)
             )
             favotireItem.setOnClickListener {
+                item.isFavorite = true
                 isFavorite.invoke(
                     MainMapper().mapArticleModelToArticalDomainModel(item)
                 )
+                favotireItem.setImageDrawable(favotireItem.context.getDrawable(R.drawable.active_favorite))
             }
         }
     }
@@ -54,7 +56,11 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
             }
 
             override fun areContentsTheSame(oldItem: ArticleModel, newItem: ArticleModel): Boolean {
-                return oldItem == newItem
+                return oldItem.author == newItem.author && oldItem.description == newItem.description &&
+                oldItem.author == newItem.author && oldItem.urlToImage == newItem.urlToImage &&
+                oldItem.content == newItem.content && oldItem.publishedAt == newItem.publishedAt &&
+                oldItem.url == newItem.url && oldItem.title == newItem.title
+
             }
 
         }

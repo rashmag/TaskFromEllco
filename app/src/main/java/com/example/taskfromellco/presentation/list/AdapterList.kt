@@ -36,7 +36,7 @@ class AdapterList : ListAdapter<ListModel, AdapterList.ViewHolder>(DIFF_UTIL) {
             }
 
             override fun areContentsTheSame(oldItem: ListModel, newItem: ListModel): Boolean {
-                return oldItem == newItem
+                return oldItem.value == newItem.value
             }
 
         }

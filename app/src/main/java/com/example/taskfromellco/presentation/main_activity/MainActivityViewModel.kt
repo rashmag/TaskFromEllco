@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.taskfromellco.data.local_db.DataRepImpl
-import com.example.taskfromellco.data.utils.MainModel
+import com.example.taskfromellco.data.local_db.MainModelEntity
 import com.example.taskfromellco.domain.model.ArticalDomainModel
 import com.example.taskfromellco.domain.usecase.LoadDataUseCase
 import com.example.taskfromellco.domain.usecase.SaveDataUseCase
@@ -21,8 +21,8 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     val valueList = loadDataUseCase.invoke()
 
-    private var _value = MutableLiveData<MainModel>()
-    val value: LiveData<MainModel> get() = _value
+    private var _value = MutableLiveData<MainModelEntity>()
+    val value: LiveData<MainModelEntity> get() = _value
 
     fun saveValue(value: ArticalDomainModel) {
         coroutines.launch {

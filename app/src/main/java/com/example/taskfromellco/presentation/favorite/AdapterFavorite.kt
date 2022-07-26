@@ -1,5 +1,6 @@
 package com.example.taskfromellco.presentation.favorite
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.ItemRecyclerViewBinding
 import com.example.taskfromellco.domain.model.ArticalDomainModel
+import com.example.taskfromellco.domain.model.ArticalDomainModel.Companion.EMPTY_NAME
 
 class AdapterFavorite(
     private val removeFavorite: (ArticalDomainModel) -> Unit
@@ -24,11 +26,16 @@ class AdapterFavorite(
             removeFavorite: (ArticalDomainModel) -> Unit
         ) =
             with(binding) {
-                nameItem.text = item.author
+                nameItem.text = item.author ?: EMPTY_NAME
                 descriptionItem.text = item.description
                 dateItem.text = item.publishedAt
                 Glide.with(binding.root).load(item.urlToImage).into(imageItem)
 
+                if(item.isFavorite){
+                    favotireItem.setImageDrawable(favotireItem.context.getDrawable(R.drawable.active_favorite))
+                }else{
+                    favotireItem.setImageDrawable(favotireItem.context.getDrawable(R.drawable.not_active_favorite))
+                }
                 favotireItem.setOnClickListener {
 //                    if (item.isFavorite) {
 //                        favotireitem.setImageDrawable(favotireitem.context.getDrawable(R.drawable.active_favorite))
@@ -51,6 +58,7 @@ class AdapterFavorite(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position), removeFavorite)
+        Log.d("test1","onBindViewholde Favorite")
     }
 
     companion object {
@@ -59,14 +67,18 @@ class AdapterFavorite(
                 oldItem: ArticalDomainModel,
                 newItem: ArticalDomainModel
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
                 oldItem: ArticalDomainModel,
                 newItem: ArticalDomainModel
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.author == newItem.author && oldItem.description == newItem.description &&
+                oldItem.author == newItem.author && oldItem.id == newItem.id &&
+                oldItem.content == newItem.content && oldItem.publishedAt == newItem.publishedAt &&
+                oldItem.url == newItem.url && oldItem.title == newItem.title &&
+                oldItem.urlToImage == newItem.urlToImage
             }
 
         }

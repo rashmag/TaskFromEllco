@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.application.mydsu.presentation.main_activity.ViewModelFactory
+import com.example.taskfromellco.utils.ViewModelFactory
 import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentLentaBinding
-import com.example.taskfromellco.presentation.favorite.FavoriteViewModel
 import com.example.taskfromellco.presentation.list.ListFragment
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import javax.inject.Inject
@@ -26,7 +25,7 @@ class LentaFragment : Fragment() {
     }
 
     private val adapterMain = AdapterLenta{
-        viewModel.saveArticle(it)
+        viewModel.saveArticleModel(it)
     }
 
     private val component by lazy {
@@ -48,7 +47,12 @@ class LentaFragment : Fragment() {
         setupRV()
         getData()
         setupSearchView()
+        visivilityProgress()
         return binding.root
+    }
+
+    private fun visivilityProgress() {
+        binding.progressLenta.visibility = View.VISIBLE
     }
 
     private fun getData() {
@@ -64,6 +68,7 @@ class LentaFragment : Fragment() {
             setHasFixedSize(true)
             viewModel.getAllNews{
                 adapterMain.submitList(it)
+                binding.progressLenta.visibility = View.GONE
             }
         }
 
@@ -74,6 +79,7 @@ class LentaFragment : Fragment() {
             override fun onClose(): Boolean {
                 viewModel.getAllNews {
                     adapterMain.submitList(it)
+                    binding.progressLenta.visibility = View.GONE
                 }
                 return false
             }

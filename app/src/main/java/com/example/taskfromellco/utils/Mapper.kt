@@ -1,34 +1,35 @@
 package com.example.taskfromellco.utils
 
+import com.example.taskfromellco.data.local_db.MainModelEntity
 import com.example.taskfromellco.data.remote_db.ArticleModel
-import com.example.taskfromellco.data.utils.MainModel
 import com.example.taskfromellco.domain.model.ArticalDomainModel
 
 class MainMapper {
 
-    fun mapArticalDomainModelToMainModel(articalDomainModel: ArticalDomainModel): MainModel = MainModel(
+    fun mapArticalDomainModelToMainModel(articalDomainModel: ArticalDomainModel): MainModelEntity = MainModelEntity(
         id = articalDomainModel.id,
-        author = articalDomainModel.author,
+        author = articalDomainModel.author ?: ArticalDomainModel.EMPTY_NAME,
         content = articalDomainModel.content,
         description = articalDomainModel.description,
-        source = articalDomainModel.source,
+//        source = mapSourceDomainModelToSource(articalDomainModel.source),
         title = articalDomainModel.title,
         url = articalDomainModel.url,
         urlToImage = articalDomainModel.urlToImage,
-        publishedAt = articalDomainModel.publishedAt
+        publishedAt = articalDomainModel.publishedAt,
+        isFavorite = articalDomainModel.isFavorite
     )
 
-    fun mapMainModelToArticalDomainModel(mainModel: MainModel): ArticalDomainModel = ArticalDomainModel(
-        id = mainModel.id,
-        author = mainModel.author,
-        content = mainModel.content,
-        description = mainModel.description,
-        source = mainModel.source,
-        title = mainModel.title,
-        url = mainModel.url,
-        urlToImage = mainModel.urlToImage,
-        publishedAt = mainModel.publishedAt,
-        isFavorite = NOT_ACTIVE_FAVORITE
+    fun mapMainModelToArticalDomainModel(mainModelEntity: MainModelEntity): ArticalDomainModel = ArticalDomainModel(
+        id = mainModelEntity.id,
+        author = mainModelEntity.author,
+        content = mainModelEntity.content,
+        description = mainModelEntity.description,
+//        source = mapSourceToSourceDomainModel(mainModelEntity.source),
+        title = mainModelEntity.title,
+        url = mainModelEntity.url,
+        urlToImage = mainModelEntity.urlToImage,
+        publishedAt = mainModelEntity.publishedAt,
+        isFavorite = mainModelEntity.isFavorite
     )
 
     fun mapArticleModelToArticalDomainModel(articleModel: ArticleModel): ArticalDomainModel = ArticalDomainModel(
@@ -36,17 +37,25 @@ class MainMapper {
         author = articleModel.author,
         content = articleModel.content,
         description = articleModel.description,
-        source = articleModel.source,
+//        source = mapSourceToSourceDomainModel(articleModel.source),
         title = articleModel.title,
         url = articleModel.url,
         urlToImage = articleModel.urlToImage,
         publishedAt = articleModel.publishedAt,
-        isFavorite = NOT_ACTIVE_FAVORITE
+        isFavorite = articleModel.isFavorite
     )
 
-    fun mapListMainModelToListEntity(list: List<MainModel>) = list.map {
+    fun mapListMainModelToListEntity(list: List<MainModelEntity>) = list.map {
         mapMainModelToArticalDomainModel(it)
     }
+//    fun mapSourceToSourceDomainModel(source: Source): SourceDomainModel = SourceDomainModel(
+//        id = source.id,
+//        name = source.name
+//    )
+//    fun mapSourceDomainModelToSource(sourceDomainModel: SourceDomainModel): Source = Source(
+//        id = sourceDomainModel.id,
+//        name = sourceDomainModel.name
+//    )
 
     companion object{
         private const val UNDEFINED = -1
