@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">TaskFromEllco</string>
     <string name="title_activity_main2">MainActivity2</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_lenta">Lenta</string>
+    <string name="title_list">List</string>
+    <string name="date_publish_lenta">Дата публикации: %s</string>
 </resources>

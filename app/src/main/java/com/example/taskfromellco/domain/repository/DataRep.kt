@@ -1,9 +1,10 @@
 package com.example.taskfromellco.domain.repository
 
 import androidx.lifecycle.LiveData
-import com.example.taskfromellco.domain.model.DBModel
+import com.example.taskfromellco.domain.model.ArticalDomainModel
 
 interface DataRep {
-    fun loadData(): LiveData<DBModel>
-    fun saveData(value:DBModel)
+    fun loadData(): List<ArticalDomainModel>
+    fun saveData(value:ArticalDomainModel)
+    fun deleteData(value:ArticalDomainModel)
 }

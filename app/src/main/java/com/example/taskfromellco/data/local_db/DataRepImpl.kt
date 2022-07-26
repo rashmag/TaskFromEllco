@@ -3,18 +3,29 @@ package com.example.taskfromellco.data.local_db
 import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.example.taskfromellco.data.utils.MainMapper
-import com.example.taskfromellco.domain.model.DBModel
+import com.example.taskfromellco.utils.MainMapper
+import com.example.taskfromellco.domain.model.ArticalDomainModel
 import com.example.taskfromellco.domain.repository.DataRep
+import com.example.taskfromellco.utils.AppScope
+import javax.inject.Inject
 
-class DataRepImpl(application: Application) : DataRep {
+@AppScope
+class DataRepImpl @Inject constructor(application: Application) : DataRep {
     private val mainDao = MainDataBase.getInstance(application).mainDao()
     private val mapper = MainMapper()
-    override fun loadData(): LiveData<DBModel> = MediatorLiveData<DBModel>().apply {
-        addSource(mainDao.getAllData()){
-            postValue(mapper.mapMainModelToDBModel(it))
-        }
+    override fun loadData():List<ArticalDomainModel> {
+        return mapper.mapListMainModelToListEntity(mainDao.getAllData())
     }
 
-    override fun saveData(value: DBModel) = mainDao.saveValue(mapper.mapDBModelToMainModel(value))
+//        MediatorLiveData<ArticalDomainModel>().apply {
+//        addSource(mainDao.getAllData()){
+//            postValue(mapper.mapMainModelToArticalDomainModel(it))
+//        }
+//    }
+
+    override fun saveData(value: ArticalDomainModel) = mainDao.saveValue(mapper.mapArticalDomainModelToMainModel(value))
+
+    override fun deleteData(value: ArticalDomainModel) {
+        mainDao.deleteUser(mapper.mapArticalDomainModelToMainModel(value))
+    }
 }

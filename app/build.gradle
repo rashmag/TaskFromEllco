@@ -7,6 +7,12 @@ plugins {
 android {
     compileSdk 32
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs += [
+                '-Xjvm-default=enable'
+        ]
+    }
     defaultConfig {
         applicationId "com.example.taskfromellco"
         minSdk 24
@@ -69,4 +75,13 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    //Dagger
+    def dagger_version = '2.42'
+    implementation 'com.google.dagger:dagger:2.42'
+    kapt 'com.google.dagger:dagger-compiler:2.42'
+    kapt 'com.google.dagger:dagger-android-processor:2.42'
+    //Glide
+    def glide_version = '4.12.0'
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
 }

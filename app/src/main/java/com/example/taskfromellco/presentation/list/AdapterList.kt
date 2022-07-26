@@ -1,6 +1,5 @@
 package com.example.taskfromellco.presentation.list
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.ItemListBinding
-class AdapterListRecycler : ListAdapter<ListModel, AdapterListRecycler.ViewHolder>(DIFF_UTIL) {
+import com.example.taskfromellco.databinding.ItemRecyclerViewBinding
+
+class AdapterList : ListAdapter<ListModel, AdapterList.ViewHolder>(DIFF_UTIL) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val binding = ItemListBinding.bind(view)

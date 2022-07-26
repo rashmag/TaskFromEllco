@@ -1,8 +1,9 @@
 package com.example.taskfromellco.domain.usecase
 
-import com.example.taskfromellco.domain.model.DBModel
+import com.example.taskfromellco.domain.model.ArticalDomainModel
 import com.example.taskfromellco.domain.repository.DataRep
+import javax.inject.Inject
 
-class SaveDataUseCase (private val dataRep: DataRep){
-    operator fun invoke(value: DBModel) = dataRep.saveData(value)
+class SaveDataUseCase @Inject constructor(private val dataRep: DataRep){
+    operator fun invoke(value: ArticalDomainModel) = dataRep.saveData(value)
 }

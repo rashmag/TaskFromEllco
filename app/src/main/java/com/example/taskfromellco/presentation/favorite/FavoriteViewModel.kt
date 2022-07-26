@@ -3,11 +3,23 @@ package com.example.taskfromellco.presentation.favorite
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.taskfromellco.domain.model.ArticalDomainModel
+import com.example.taskfromellco.domain.usecase.DeleteDataUseCase
+import com.example.taskfromellco.domain.usecase.LoadDataUseCase
+import com.example.taskfromellco.domain.usecase.SaveDataUseCase
+import javax.inject.Inject
 
-class FavoriteViewModel : ViewModel() {
+class FavoriteViewModel @Inject constructor(
+    private val loadDataUseCase: LoadDataUseCase,
+    private val deleteDataUseCase: DeleteDataUseCase
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    fun loadAllList(): List<ArticalDomainModel>{
+        return loadDataUseCase.invoke()
     }
-    val text: LiveData<String> = _text
+
+
+    fun deleteArticle(articalDomainModel: ArticalDomainModel){
+        deleteDataUseCase.invoke(articalDomainModel)
+    }
 }

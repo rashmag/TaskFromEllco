@@ -1,9 +1,8 @@
 package com.example.taskfromellco.presentation.list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import javax.inject.Inject
 
-class ListViewModel : ViewModel() {
+class ListViewModel @Inject constructor(): ViewModel() {
 
 }

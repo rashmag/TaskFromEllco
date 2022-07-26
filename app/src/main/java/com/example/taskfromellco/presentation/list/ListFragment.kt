@@ -6,12 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentListBinding
 import com.example.taskfromellco.utils.SpaceItemDecoration
 
 class ListFragment : Fragment() {
 
     lateinit var binding: FragmentListBinding
+
+    private val component by lazy {
+        (requireActivity().application as App).component
+            .listComp()
+            .create()
+    }
 
     private val viewModel by lazy {
         ViewModelProvider(this).get(ListViewModel::class.java)
@@ -23,6 +30,7 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater, container, false)
+        component.inject(this)
         return binding.root
     }
 
@@ -33,15 +41,18 @@ class ListFragment : Fragment() {
 
 
     private fun setupRecyclerView() {
-        val adapterMain = AdapterListRecycler()
-        binding.recyclerViewList.adapter = adapterMain
-        binding.recyclerViewList.addItemDecoration(
-            SpaceItemDecoration(
-                MARGIN_SPACING_VALUE_34,
-                MARGIN_LEFT_VALUE_34,
-                MARGIN_RIGHT_VALUE_34
+        val adapterMain = AdapterList()
+        with(binding.recyclerViewList) {
+            adapter = adapterMain
+            addItemDecoration(
+                SpaceItemDecoration(
+                    MARGIN_SPACING_VALUE_34,
+                    MARGIN_LEFT_VALUE_34,
+                    MARGIN_RIGHT_VALUE_34
+                )
             )
-        )
+            setHasFixedSize(true)
+        }
         adapterMain.submitList(createList())
     }
 
@@ -54,8 +65,8 @@ class ListFragment : Fragment() {
     }
 
     companion object {
-        private const val MARGIN_SPACING_VALUE_34 = 34
-        private const val MARGIN_LEFT_VALUE_34 = 10
-        private const val MARGIN_RIGHT_VALUE_34 = 10
+        const val MARGIN_SPACING_VALUE_34 = 34
+        const val MARGIN_LEFT_VALUE_34 = 10
+        const val MARGIN_RIGHT_VALUE_34 = 10
     }
 }

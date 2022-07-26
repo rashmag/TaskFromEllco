@@ -7,35 +7,65 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.application.mydsu.presentation.main_activity.ViewModelFactory
+import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentFavoriteBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class FavoriteFragment : Fragment() {
 
-    private var _binding: FragmentFavoriteBinding? = null
+    lateinit var binding: FragmentFavoriteBinding
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private val component by lazy {
+        (requireActivity().application as App).component
+            .favoriteComp()
+            .create()
+    }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
+    }
+    val adapterFavorite by lazy {
+        AdapterFavorite {
+            viewModel.deleteArticle(it)
+            getAllList()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val favoriteViewModel = ViewModelProvider(this).get(FavoriteViewModel::class.java)
+        binding = FragmentFavoriteBinding.inflate(inflater, container, false)
+        component.inject(this)
 
-        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        favoriteViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+        return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRV()
+    }
+
+    private fun setupRV() {
+        with(binding.rvFavorite) {
+            adapter = adapterFavorite
+            setHasFixedSize(true)
+        }
+        getAllList()
+    }
+
+    private fun getAllList() {
+
+        thread {
+            adapterFavorite.submitList(viewModel.loadAllList())
+        }
     }
 }

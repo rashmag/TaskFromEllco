@@ -1,76 +1,102 @@
 package com.example.taskfromellco.presentation.lenta
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.taskfromellco.data.remote_db.ApiClient
-import com.example.taskfromellco.data.remote_db.RestService
-import com.example.taskfromellco.data.remote_db.Source
+import com.application.mydsu.presentation.main_activity.ViewModelFactory
+import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentLentaBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.create
-import java.lang.StringBuilder
-import kotlin.concurrent.thread
+import com.example.taskfromellco.presentation.favorite.FavoriteViewModel
+import com.example.taskfromellco.presentation.list.ListFragment
+import com.example.taskfromellco.utils.SpaceItemDecoration
+import javax.inject.Inject
 
 class LentaFragment : Fragment() {
 
-    private var _binding: FragmentLentaBinding? = null
+    lateinit var binding: FragmentLentaBinding
 
-    private val binding get() = _binding!!
-
-    private val viewModel by lazy{
-        ViewModelProvider(this).get(LentaViewModel::class.java)
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel by lazy {
+        ViewModelProvider(this,viewModelFactory)[LentaViewModel::class.java]
     }
+
+    private val adapterMain = AdapterLenta{
+        viewModel.saveArticle(it)
+    }
+
+    private val component by lazy {
+        (requireActivity().application as App).component
+            .lentaComp()
+            .create()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentLentaBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        binding = FragmentLentaBinding.inflate(inflater, container, false)
+        component.inject(this)
+
+
+        setupRV()
+        getData()
+        setupSearchView()
+        return binding.root
+    }
+
+    private fun getData() {
+        with(binding.rvLenta) {
+            adapter = adapterMain
+            addItemDecoration(
+                SpaceItemDecoration(
+                    ListFragment.MARGIN_SPACING_VALUE_34,
+                    ListFragment.MARGIN_LEFT_VALUE_34,
+                    ListFragment.MARGIN_RIGHT_VALUE_34
+                )
+            )
+            setHasFixedSize(true)
+            viewModel.getAllNews{
+                adapterMain.submitList(it)
+            }
+        }
+
+    }
+
+    private fun setupSearchView() {
+        binding.searchLenta.setOnCloseListener(object : SearchView.OnCloseListener{
+            override fun onClose(): Boolean {
+                viewModel.getAllNews {
+                    adapterMain.submitList(it)
+                }
+                return false
+            }
+        })
+        binding.searchLenta.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                viewModel.searchQuery(query ?: "") {
+                    adapterMain.submitList(it)
+                }
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun setupRV() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        thread {
-            ApiClient.getClient().getHeadlines("ru", 1, ApiClient.API_KEY).enqueue(object :
-                Callback<List<Source>> {
-                override fun onResponse(
-                    call: Call<List<Source>>,
-                    response: Response<List<Source>>
-                ) {
-                    val responseBody = response.body()!!
-
-                    val stringBuilder = StringBuilder()
-                    for (myData in responseBody) {
-                        stringBuilder.append(myData.id)
-                        stringBuilder.append("\n")
-                    }
-                    Log.d("test1","$stringBuilder")
-                }
-
-                override fun onFailure(call: Call<List<Source>>, t: Throwable) {
-                    Log.d("test1","$call")
-                }
-            })
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
