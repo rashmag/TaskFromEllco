@@ -18,17 +18,19 @@ class AdapterFavorite(
 ) :
     ListAdapter<ArticalDomainModel, AdapterFavorite.ViewHolder>(DIFF_UTIL) {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRecyclerViewBinding.bind(view)
 
         fun bind(
-            item: ArticalDomainModel,
-            removeFavorite: (ArticalDomainModel) -> Unit
+            item: ArticalDomainModel
         ) =
             with(binding) {
                 nameItem.text = item.author ?: EMPTY_NAME
                 descriptionItem.text = item.description
-                dateItem.text = item.publishedAt
+                dateItem.text = String.format(
+                    dateItem.context.getString(R.string.date_publish_lenta),
+                    item.publishedAt.substring(0, 10)
+                )
                 Glide.with(binding.root).load(item.urlToImage).into(imageItem)
 
                 if(item.isFavorite){
@@ -37,6 +39,7 @@ class AdapterFavorite(
                     favotireItem.setImageDrawable(favotireItem.context.getDrawable(R.drawable.not_active_favorite))
                 }
                 favotireItem.setOnClickListener {
+                    Log.d("test3","item.id = ${item.id}")
 //                    if (item.isFavorite) {
 //                        favotireitem.setImageDrawable(favotireitem.context.getDrawable(R.drawable.active_favorite))
 //                        item.isFavorite = true
@@ -57,7 +60,7 @@ class AdapterFavorite(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), removeFavorite)
+        holder.bind(getItem(position))
         Log.d("test1","onBindViewholde Favorite")
     }
 

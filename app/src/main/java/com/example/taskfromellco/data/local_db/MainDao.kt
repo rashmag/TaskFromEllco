@@ -11,5 +11,5 @@ interface MainDao {
     fun getAllData(): List<MainModelEntity>
 
     @Delete
-    fun deleteUser(mainModelEntity: MainModelEntity?)
+    fun deleteUser(mainModelEntity: MainModelEntity?):Int
 }

@@ -5,5 +5,5 @@ import com.example.taskfromellco.domain.repository.DataRep
 import javax.inject.Inject
 
 class DeleteDataUseCase @Inject constructor(private val dataRep: DataRep){
-    operator fun invoke(value: ArticalDomainModel) = dataRep.deleteData(value)
+    operator fun invoke(value: ArticalDomainModel):Int = dataRep.deleteData(value)
 }

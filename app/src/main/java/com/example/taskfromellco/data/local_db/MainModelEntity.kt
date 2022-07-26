@@ -8,8 +8,8 @@ import com.example.taskfromellco.data.remote_db.Source
 
 @Entity(tableName = "remote_db")
 data class MainModelEntity(
-    @PrimaryKey(autoGenerate = false)
-    val id:Int,
+    @PrimaryKey(autoGenerate = true)
+    val id:Int = 0,
     val author: String,
     val content: String,
     val description: String,

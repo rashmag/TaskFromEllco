@@ -10,13 +10,18 @@ import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.ItemListBinding
 import com.example.taskfromellco.databinding.ItemRecyclerViewBinding
 
-class AdapterList : ListAdapter<ListModel, AdapterList.ViewHolder>(DIFF_UTIL) {
+class AdapterList(private val onClick: (ListModel) -> Unit) : ListAdapter<ListModel, AdapterList.ViewHolder>(DIFF_UTIL) {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val binding = ItemListBinding.bind(view)
 
         fun bind(item: ListModel) = with(binding){
-            nameListTV.text = item.value
+            nameListTv.text = item.value
+            imgItem.setImageResource(item.img)
+
+            itemView.setOnClickListener {
+                onClick.invoke(item)
+            }
         }
     }
 

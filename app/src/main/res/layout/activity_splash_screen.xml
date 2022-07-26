@@ -8,7 +8,7 @@
     tools:context="com.example.mydsu.presentation.splash_screen.SplashScreen">
 
     <TextView
-        android:id="@+id/imageView5"
+        android:id="@+id/img_splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="28sp"

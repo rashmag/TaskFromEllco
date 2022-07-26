@@ -7,7 +7,7 @@
     tools:context=".presentation.lenta.LentaFragment">
 
     <androidx.appcompat.widget.SearchView
-        android:id="@+id/searchLenta"
+        android:id="@+id/search_lenta"
         android:layout_width="0dp"
         app:queryHint="Поиск"
         app:layout_constraintTop_toTopOf="parent"
@@ -24,11 +24,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchLenta"
+        app:layout_constraintTop_toBottomOf="@+id/search_lenta"
         tools:listitem="@layout/item_recycler_view" />
 
     <ProgressBar
-        android:id="@+id/progressLenta"
+        android:id="@+id/progress_lenta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

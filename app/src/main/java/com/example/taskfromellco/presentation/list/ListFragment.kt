@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskfromellco.App
+import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentListBinding
+import com.example.taskfromellco.presentation.one_element_list.OneElementListFragment
 import com.example.taskfromellco.utils.SpaceItemDecoration
 
 class ListFragment : Fragment() {
@@ -18,6 +20,17 @@ class ListFragment : Fragment() {
         (requireActivity().application as App).component
             .listComp()
             .create()
+    }
+    private val adapterMain by lazy {
+        AdapterList {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.container_fragment,
+                    OneElementListFragment.newInstance(it)
+                )
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private val viewModel by lazy {
@@ -36,12 +49,12 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupRecyclerView()
     }
 
 
     private fun setupRecyclerView() {
-        val adapterMain = AdapterList()
         with(binding.recyclerViewList) {
             adapter = adapterMain
             addItemDecoration(
@@ -59,7 +72,7 @@ class ListFragment : Fragment() {
     private fun createList(): ArrayList<ListModel> {
         val arrayList: ArrayList<ListModel> = arrayListOf()
         repeat(20) {
-            arrayList.add(ListModel("Название"))
+            arrayList.add(ListModel(R.drawable.ic_launcher_background, "Название $it"))
         }
         return arrayList
     }

@@ -1,6 +1,7 @@
 package com.example.taskfromellco.presentation.favorite
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.taskfromellco.utils.ViewModelFactory
 import com.example.taskfromellco.App
 import com.example.taskfromellco.databinding.FragmentFavoriteBinding
+import com.example.taskfromellco.domain.model.ArticalDomainModel
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
@@ -29,8 +31,9 @@ class FavoriteFragment : Fragment() {
     }
     val adapterFavorite by lazy {
         AdapterFavorite {
-            viewModel.deleteArticle(it)
-            getAllList()
+            viewModel.deleteArticle(it){
+                getAllList()
+            }
         }
     }
 
@@ -42,7 +45,12 @@ class FavoriteFragment : Fragment() {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false)
         component.inject(this)
 
+        setupSearchView()
         return binding.root
+    }
+
+    private fun setupSearchView() {
+        viewModel.setupSearchView(binding.searchViewFavorite,adapterFavorite)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,13 +64,12 @@ class FavoriteFragment : Fragment() {
             adapter = adapterFavorite
             setHasFixedSize(true)
         }
+
         getAllList()
     }
-
     private fun getAllList() {
-
-        thread {
-            adapterFavorite.submitList(viewModel.loadAllList())
+        viewModel.loadAllList{
+            adapterFavorite.submitList(it)
         }
     }
 }

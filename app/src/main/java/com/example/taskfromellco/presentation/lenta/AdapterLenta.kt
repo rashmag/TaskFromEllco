@@ -1,5 +1,6 @@
 package com.example.taskfromellco.presentation.lenta
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +18,12 @@ import com.example.taskfromellco.utils.MainMapper
 class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
     ListAdapter<ArticleModel, AdapterLenta.ViewHolder>(DIFF_UTIL) {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemRecyclerViewBinding.bind(view)
 
-        fun bind(item: ArticleModel, isFavorite: (ArticalDomainModel) -> Unit) = with(binding) {
+        fun bind(item: ArticleModel) = with(binding) {
             nameItem.text = item.author
+            Log.d("test1","${item.source.id}")
             descriptionItem.text = item.description
             Glide.with(binding.root)
                 .load(item.urlToImage)
@@ -46,7 +48,7 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), isFavorite)
+        holder.bind(getItem(position))
     }
 
     companion object {
