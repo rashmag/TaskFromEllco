@@ -34,18 +34,15 @@ class FavoriteViewModel @Inject constructor(
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                    loadAllList {
-                        articalDomainModel.clear()
-                        adapterFavorite.submitList(null)
-                        it.forEach {
-                            if ((it.author?.lowercase())!!.contains(newText?.lowercase().toString())) {
-                                articalDomainModel.add(it)
-                                Log.d("test1","size = ${articalDomainModel.size} text = ${it.author}")
-                            }
+                articalDomainModel.clear()
+                loadAllList {
+                    it.forEach {
+                        if ((it.author?.lowercase())!!.contains(newText?.lowercase().toString())) {
+                            articalDomainModel.add(it)
                         }
-                        Log.d("test1","size = ${articalDomainModel.size}")
-                        adapterFavorite.submitList(articalDomainModel)
                     }
+                    adapterFavorite.submitList(articalDomainModel)
+                }
                 return false
             }
         })
