@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.ActivityNavigator
+import androidx.navigation.fragment.findNavController
 import com.example.taskfromellco.App
 import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentFavoriteBinding
+import com.example.taskfromellco.presentation.lenta.LentaFragmentDirections
 import com.example.taskfromellco.presentation.one_element.OneElementFragment
 import com.example.taskfromellco.utils.MainMapper
 import com.example.taskfromellco.utils.SpaceItemDecoration
@@ -36,11 +39,8 @@ class FavoriteFragment : Fragment() {
                 getAllList()
             }
         },{
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.container_fragment,
-                    OneElementFragment.newInstance(MainMapper().mapArticleDomainModelToArticalModel(it))
-                ).addToBackStack(null).commit()
+            findNavController().navigate(FavoriteFragmentDirections.
+            actionNavigationFavoriteToOneElementFragment(MainMapper().mapArticleDomainModelToArticalModel(it)))
         })
     }
 

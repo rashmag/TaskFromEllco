@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.taskfromellco.App
 import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentLentaBinding
+import com.example.taskfromellco.presentation.main_activity.MainActivity
 import com.example.taskfromellco.presentation.one_element.OneElementFragment
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import com.example.taskfromellco.utils.ViewModelFactory
@@ -30,11 +33,7 @@ class LentaFragment : Fragment() {
     private val adapterMain = AdapterLenta({
         viewModel.saveArticleModel(it)
     },{
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(
-                R.id.container_fragment,
-                OneElementFragment.newInstance(it)
-            ).addToBackStack(null).commit()
+        findNavController().navigate(LentaFragmentDirections.actionNavigationLentaToOneElementFragment(it))
     })
 
     private val component by lazy {

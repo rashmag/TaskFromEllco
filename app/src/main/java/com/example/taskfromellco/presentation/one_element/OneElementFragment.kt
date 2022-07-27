@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.taskfromellco.App
 import com.example.taskfromellco.data.remote_db.ArticleModel
 import com.example.taskfromellco.databinding.FragmentOneElementListBinding
@@ -35,13 +37,14 @@ class OneElementFragment : Fragment() {
         binding = FragmentOneElementListBinding.inflate(inflater, container, false)
         component.inject(this)
         parceArgs()
+        findNavController().popBackStack()
         return binding.root
     }
 
     private fun parceArgs() {
-        requireArguments().getParcelable<ArticleModel>(KEY).apply {
-            articleModel = this
-        }
+        val navArgs by navArgs<OneElementFragmentArgs>()
+        articleModel = navArgs.articleModel
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,18 +55,16 @@ class OneElementFragment : Fragment() {
 
     private fun setupViews() {
         articleModel?.let {
-            viewModel.setupViews(articleModel!!,binding,requireContext())
+//            viewModel.setupViews(articleModel!!,binding,requireContext())
         }
     }
 
     companion object {
         private val KEY = "articleModel"
-        fun newInstance(args: ArticleModel): OneElementFragment {
-            return OneElementFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelable(KEY, args)
-                }
-            }
-        }
+//        fun newInstance(args: ArticleModel): Bundle {
+//            return Bundle().apply {
+//                    putParcelable(KEY, args)
+//                }
+//        }
     }
 }
