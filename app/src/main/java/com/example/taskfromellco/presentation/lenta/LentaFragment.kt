@@ -12,8 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.taskfromellco.App
 import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentLentaBinding
+import com.example.taskfromellco.presentation.favorite.FavoriteFragmentDirections
 import com.example.taskfromellco.presentation.main_activity.MainActivity
 import com.example.taskfromellco.presentation.one_element.OneElementFragment
+import com.example.taskfromellco.utils.MainMapper
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import com.example.taskfromellco.utils.ViewModelFactory
 import com.example.taskfromellco.utils.gone
@@ -33,7 +35,9 @@ class LentaFragment : Fragment() {
     private val adapterMain = AdapterLenta({
         viewModel.saveArticleModel(it)
     },{
-        findNavController().navigate(LentaFragmentDirections.actionNavigationLentaToOneElementFragment(it))
+        val action = LentaFragmentDirections.
+        actionNavigationLentaToOneElementFragment(it)
+        findNavController().navigate(action)
     })
 
     private val component by lazy {

@@ -39,8 +39,9 @@ class FavoriteFragment : Fragment() {
                 getAllList()
             }
         },{
-            findNavController().navigate(FavoriteFragmentDirections.
-            actionNavigationFavoriteToOneElementFragment(MainMapper().mapArticleDomainModelToArticalModel(it)))
+            val action = FavoriteFragmentDirections.
+            actionNavigationFavoriteToOneElementFragment(MainMapper().mapArticleDomainModelToArticalModel(it))
+            findNavController().navigate(action)
         })
     }
 

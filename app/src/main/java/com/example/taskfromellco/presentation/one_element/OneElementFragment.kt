@@ -15,6 +15,7 @@ import com.example.taskfromellco.databinding.FragmentOneElementListBinding
 
 class OneElementFragment : Fragment() {
 
+    val navArgs:OneElementFragmentArgs by navArgs<OneElementFragmentArgs>()
     lateinit var binding: FragmentOneElementListBinding
 
     private val component by lazy {
@@ -37,14 +38,11 @@ class OneElementFragment : Fragment() {
         binding = FragmentOneElementListBinding.inflate(inflater, container, false)
         component.inject(this)
         parceArgs()
-        findNavController().popBackStack()
         return binding.root
     }
 
     private fun parceArgs() {
-        val navArgs by navArgs<OneElementFragmentArgs>()
         articleModel = navArgs.articleModel
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -55,7 +53,7 @@ class OneElementFragment : Fragment() {
 
     private fun setupViews() {
         articleModel?.let {
-//            viewModel.setupViews(articleModel!!,binding,requireContext())
+            viewModel.setupViews(articleModel!!,binding,requireContext())
         }
     }
 
