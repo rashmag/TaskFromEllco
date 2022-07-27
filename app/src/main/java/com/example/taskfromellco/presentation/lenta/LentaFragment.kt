@@ -8,11 +8,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskfromellco.App
+import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentLentaBinding
+import com.example.taskfromellco.presentation.one_element.OneElementFragment
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import com.example.taskfromellco.utils.ViewModelFactory
 import com.example.taskfromellco.utils.gone
-import com.example.taskfromellco.utils.visible
 import javax.inject.Inject
 
 class LentaFragment : Fragment() {
@@ -26,9 +27,15 @@ class LentaFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory)[LentaViewModel::class.java]
     }
 
-    private val adapterMain = AdapterLenta {
+    private val adapterMain = AdapterLenta({
         viewModel.saveArticleModel(it)
-    }
+    },{
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.container_fragment,
+                OneElementFragment.newInstance(it)
+            ).addToBackStack(null).commit()
+    })
 
     private val component by lazy {
         (requireActivity().application as App).component
@@ -47,12 +54,7 @@ class LentaFragment : Fragment() {
 
         getData()
         setupSearchView()
-        visivilityProgress()
         return binding.root
-    }
-
-    private fun visivilityProgress() {
-        binding.progressLenta.visible()
     }
 
     private fun getData() {

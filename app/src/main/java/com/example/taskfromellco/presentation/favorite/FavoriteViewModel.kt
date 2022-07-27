@@ -1,5 +1,6 @@
 package com.example.taskfromellco.presentation.favorite
 
+import android.util.Log
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,21 +30,22 @@ class FavoriteViewModel @Inject constructor(
         val articalDomainModel = arrayListOf<ArticalDomainModel>()
         searchViewFavorite.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                viewModelScope.launch {
-                    loadAllList {
-                        it.forEach {
-                            if ((it.author?.lowercase()).equals(query?.lowercase())) {
-                                articalDomainModel.clear()
-                                articalDomainModel.add(it)
-                            }
-                        }
-                        adapterFavorite.submitList(articalDomainModel)
-                    }
-                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                    loadAllList {
+                        articalDomainModel.clear()
+                        adapterFavorite.submitList(null)
+                        it.forEach {
+                            if ((it.author?.lowercase())!!.contains(newText?.lowercase().toString())) {
+                                articalDomainModel.add(it)
+                                Log.d("test1","size = ${articalDomainModel.size} text = ${it.author}")
+                            }
+                        }
+                        Log.d("test1","size = ${articalDomainModel.size}")
+                        adapterFavorite.submitList(articalDomainModel)
+                    }
                 return false
             }
         })

@@ -1,13 +1,12 @@
 package com.example.taskfromellco.di.one_element_list
 
-import com.example.taskfromellco.presentation.list.ListFragment
-import com.example.taskfromellco.presentation.one_element_list.OneElementListFragment
+import com.example.taskfromellco.presentation.one_element.OneElementFragment
 import dagger.Subcomponent
 
 @Subcomponent
 interface OneElementListComp {
 
-    fun inject(oneElementListFragment: OneElementListFragment)
+    fun inject(oneElementFragment: OneElementFragment)
 
     @Subcomponent.Factory
     interface Factory{

@@ -2,9 +2,6 @@ package com.example.taskfromellco.data.local_db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import androidx.room.TypeConverters
-import com.example.taskfromellco.data.remote_db.Source
 
 @Entity(tableName = "remote_db")
 data class MainModelEntity(

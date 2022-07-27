@@ -4,30 +4,102 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="20dp"
     android:background="@color/white"
-    tools:context=".presentation.one_element_list.OneElementListFragment">
+    tools:context=".presentation.one_element.OneElementFragment">
 
-    <ImageView
-        android:id="@+id/img_one"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        tools:src="@drawable/list_bottom_nav"
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/name_one"
-        android:layout_width="wrap_content"
-        android:textSize="28sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/img_one"
-        app:layout_constraintStart_toStartOf="@+id/img_one"
-        app:layout_constraintTop_toBottomOf="@+id/img_one"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/img_one"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="50dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/list_bottom_nav" />
 
-        android:layout_height="wrap_content"
-        android:hint="Название"
-        />
+            <TextView
+                android:id="@+id/author_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Автор"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_one" />
+
+            <TextView
+                android:id="@+id/title_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Заголовок"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/author_one" />
+
+            <TextView
+                android:id="@+id/description_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Описание"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_one" />
+
+            <WebView
+                android:id="@+id/web_view_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/description_one" />
+
+            <ProgressBar
+                android:id="@+id/progress_loaded_sait"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                app:layout_constraintBottom_toBottomOf="@id/date_one"
+                app:layout_constraintEnd_toEndOf="@+id/img_one"
+                app:layout_constraintStart_toStartOf="@+id/img_one"
+                app:layout_constraintTop_toBottomOf="@+id/web_view_one"/>
+
+            <TextView
+                android:id="@+id/date_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="40dp"
+                android:hint="Дата"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_loaded_sait" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

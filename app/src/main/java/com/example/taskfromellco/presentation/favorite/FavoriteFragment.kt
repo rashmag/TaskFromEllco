@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskfromellco.App
+import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentFavoriteBinding
+import com.example.taskfromellco.presentation.one_element.OneElementFragment
+import com.example.taskfromellco.utils.MainMapper
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import com.example.taskfromellco.utils.ViewModelFactory
 import javax.inject.Inject
@@ -28,11 +31,17 @@ class FavoriteFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
     }
     val adapterFavorite by lazy {
-        AdapterFavorite {
+        AdapterFavorite ({
             viewModel.deleteArticle(it){
                 getAllList()
             }
-        }
+        },{
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(
+                    R.id.container_fragment,
+                    OneElementFragment.newInstance(MainMapper().mapArticleDomainModelToArticalModel(it))
+                ).addToBackStack(null).commit()
+        })
     }
 
     override fun onCreateView(

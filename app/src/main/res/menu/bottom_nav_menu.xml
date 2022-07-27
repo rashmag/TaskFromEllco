@@ -7,11 +7,6 @@
         android:title="@string/title_favorite" />
 
     <item
-        android:id="@+id/navigation_list"
-        android:icon="@drawable/list_bottom_nav"
-        android:title="@string/title_list" />
-
-    <item
         android:id="@+id/navigation_lenta"
         android:icon="@drawable/main_screen_icon_lenta"
         android:title="@string/title_lenta" />

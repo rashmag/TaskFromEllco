@@ -1,19 +1,17 @@
-package com.example.taskfromellco.presentation.one_element_list
+package com.example.taskfromellco.presentation.one_element
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.taskfromellco.App
-import com.example.taskfromellco.databinding.FragmentListBinding
+import com.example.taskfromellco.data.remote_db.ArticleModel
 import com.example.taskfromellco.databinding.FragmentOneElementListBinding
-import com.example.taskfromellco.presentation.list.ListModel
-import com.example.taskfromellco.utils.SpaceItemDecoration
 
-class OneElementListFragment : Fragment() {
+
+class OneElementFragment : Fragment() {
 
     lateinit var binding: FragmentOneElementListBinding
 
@@ -23,7 +21,11 @@ class OneElementListFragment : Fragment() {
             .create()
     }
 
-    private var listModel:ListModel? = null
+    private var articleModel: ArticleModel? = null
+
+    private val viewModel by lazy {
+        ViewModelProvider(this)[OneFramentViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,8 +39,8 @@ class OneElementListFragment : Fragment() {
     }
 
     private fun parceArgs() {
-        requireArguments().getParcelable<ListModel>(KEY).apply {
-            listModel = this
+        requireArguments().getParcelable<ArticleModel>(KEY).apply {
+            articleModel = this
         }
     }
 
@@ -49,20 +51,17 @@ class OneElementListFragment : Fragment() {
     }
 
     private fun setupViews() {
-        listModel?.img?.let {
-            binding.imgOne.setImageResource(it)
-        }
-        listModel?.value?.let {
-            binding.nameOne.text = it
+        articleModel?.let {
+            viewModel.setupViews(articleModel!!,binding,requireContext())
         }
     }
 
     companion object {
-        private val KEY = "listModel"
-        fun newInstance(args:ListModel):OneElementListFragment{
-            return OneElementListFragment().apply {
+        private val KEY = "articleModel"
+        fun newInstance(args: ArticleModel): OneElementFragment {
+            return OneElementFragment().apply {
                 arguments = Bundle().apply {
-                    putParcelable(KEY,args)
+                    putParcelable(KEY, args)
                 }
             }
         }

@@ -13,7 +13,10 @@ import com.example.taskfromellco.domain.model.ArticalDomainModel
 import com.example.taskfromellco.utils.MainMapper
 
 
-class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
+class AdapterLenta(
+    private val isFavorite: (ArticalDomainModel) -> Unit,
+    private val onClick: (ArticleModel) -> Unit
+) :
     ListAdapter<ArticleModel, AdapterLenta.ViewHolder>(DIFF_UTIL) {
 
     inner class ViewHolder(private val binding: ItemRecyclerViewBinding) :
@@ -24,10 +27,6 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
             Glide.with(binding.root)
                 .load(item.urlToImage)
                 .into(imageItem)
-            dateItem.text = String.format(
-                dateItem.context.getString(R.string.date_publish_lenta),
-                item.publishedAt.substring(0, 10)
-            )
             favotireItem.setOnClickListener {
                 item.isFavorite = true
                 isFavorite.invoke(
@@ -35,11 +34,20 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
                 )
                 favotireItem.setImageDrawable(favotireItem.context.getDrawable(R.drawable.active_favorite))
             }
+            itemView.setOnClickListener {
+                onClick.invoke(item)
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-     ViewHolder(ItemRecyclerViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        ViewHolder(
+            ItemRecyclerViewBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -54,9 +62,9 @@ class AdapterLenta(private val isFavorite: (ArticalDomainModel) -> Unit) :
 
             override fun areContentsTheSame(oldItem: ArticleModel, newItem: ArticleModel): Boolean {
                 return oldItem.author == newItem.author && oldItem.description == newItem.description &&
-                oldItem.author == newItem.author && oldItem.urlToImage == newItem.urlToImage &&
-                oldItem.content == newItem.content && oldItem.publishedAt == newItem.publishedAt &&
-                oldItem.url == newItem.url && oldItem.title == newItem.title
+                        oldItem.author == newItem.author && oldItem.urlToImage == newItem.urlToImage &&
+                        oldItem.content == newItem.content && oldItem.publishedAt == newItem.publishedAt &&
+                        oldItem.url == newItem.url && oldItem.title == newItem.title
             }
         }
     }

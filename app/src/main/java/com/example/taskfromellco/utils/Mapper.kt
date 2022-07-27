@@ -9,28 +9,27 @@ class MainMapper {
 
     fun mapArticalDomainModelToMainModel(articalDomainModel: ArticalDomainModel): MainModelEntity = MainModelEntity(
         author = articalDomainModel.author ?: ArticalDomainModel.EMPTY_NAME,
-        content = articalDomainModel.content,
-        description = articalDomainModel.description,
-        title = articalDomainModel.title,
-        url = articalDomainModel.url,
-        urlToImage = articalDomainModel.urlToImage,
-        publishedAt = articalDomainModel.publishedAt,
+        content = articalDomainModel.content ?:ArticalDomainModel.EMPTY,
+        description = articalDomainModel.description ?:ArticalDomainModel.EMPTY,
+        title = articalDomainModel.title ?:ArticalDomainModel.EMPTY,
+        url = articalDomainModel.url ?:ArticalDomainModel.EMPTY,
+        urlToImage = articalDomainModel.urlToImage ?:ArticalDomainModel.EMPTY,
+        publishedAt = articalDomainModel.publishedAt ?:ArticalDomainModel.EMPTY,
         isFavorite = articalDomainModel.isFavorite
     )
     fun mapArticalDomainModelToMainModelDelete(articalDomainModel: ArticalDomainModel): MainModelEntity = MainModelEntity(
         id = articalDomainModel.id,
         author = articalDomainModel.author ?: ArticalDomainModel.EMPTY_NAME,
-        content = articalDomainModel.content,
-        description = articalDomainModel.description,
-        title = articalDomainModel.title,
-        url = articalDomainModel.url,
-        urlToImage = articalDomainModel.urlToImage,
-        publishedAt = articalDomainModel.publishedAt,
+        content = articalDomainModel.content ?:ArticalDomainModel.EMPTY,
+        description = articalDomainModel.description ?:ArticalDomainModel.EMPTY,
+        title = articalDomainModel.title ?:ArticalDomainModel.EMPTY,
+        url = articalDomainModel.url ?:ArticalDomainModel.EMPTY,
+        urlToImage = articalDomainModel.urlToImage ?:ArticalDomainModel.EMPTY,
+        publishedAt = articalDomainModel.publishedAt ?:ArticalDomainModel.EMPTY,
         isFavorite = articalDomainModel.isFavorite
     )
 
     fun mapMainModelToArticalDomainModel(mainModelEntity: MainModelEntity): ArticalDomainModel {
-        Log.d("test3","id = ${mainModelEntity.id}")
         return ArticalDomainModel(
             id = mainModelEntity.id,
             author = mainModelEntity.author,
@@ -53,6 +52,17 @@ class MainMapper {
         urlToImage = articleModel.urlToImage,
         publishedAt = articleModel.publishedAt,
         isFavorite = articleModel.isFavorite
+    )
+
+    fun mapArticleDomainModelToArticalModel(articalDomainModel: ArticalDomainModel): ArticleModel = ArticleModel(
+        author = articalDomainModel.author ?: ArticalDomainModel.EMPTY_NAME,
+        content = articalDomainModel.content ?:ArticalDomainModel.EMPTY,
+        description = articalDomainModel.description ?:ArticalDomainModel.EMPTY,
+        title = articalDomainModel.title ?:ArticalDomainModel.EMPTY,
+        url = articalDomainModel.url ?:ArticalDomainModel.EMPTY,
+        urlToImage = articalDomainModel.urlToImage ?:ArticalDomainModel.EMPTY,
+        publishedAt = articalDomainModel.publishedAt ?:ArticalDomainModel.EMPTY,
+        isFavorite = articalDomainModel.isFavorite
     )
 
     fun mapListMainModelToListEntity(list: List<MainModelEntity>) = list.map {
