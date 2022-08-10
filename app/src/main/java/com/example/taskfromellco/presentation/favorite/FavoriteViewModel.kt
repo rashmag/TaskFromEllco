@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.taskfromellco.domain.model.ArticalDomainModel
 import com.example.taskfromellco.domain.usecase.DeleteDataUseCase
 import com.example.taskfromellco.domain.usecase.LoadDataUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FavoriteViewModel @Inject constructor(
@@ -35,27 +37,36 @@ class FavoriteViewModel @Inject constructor(
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 articalDomainModel.clear()
-                loadAllList {
-                    it.forEach {
-                        if ((it.author?.lowercase())!!.contains(newText?.lowercase().toString())) {
-                            articalDomainModel.add(it)
+                viewModelScope.launch {
+                    loadAllList {
+                        it.forEach {
+                            if ((it.author?.lowercase())!!.contains(
+                                    newText?.lowercase().toString()
+                                )
+                            ) {
+                                articalDomainModel.add(it)
+                            }
                         }
+                        adapterFavorite.submitList(articalDomainModel)
                     }
-                    adapterFavorite.submitList(articalDomainModel)
                 }
                 return false
             }
         })
     }
 
-    fun loadAllList(articalDomainModel: (List<ArticalDomainModel>) -> Unit) {
-        viewModelScope.launch { articalDomainModel.invoke(loadDataUseCase.invoke()) }
+    suspend fun loadAllList(articalDomainModel: (List<ArticalDomainModel>) -> Unit) {
+        withContext(Dispatchers.IO) {
+            articalDomainModel.invoke(loadDataUseCase.invoke())
+        }
     }
 
 
     fun deleteArticle(articalDomainModel: ArticalDomainModel, selectResult: (Int) -> Unit) {
         viewModelScope.launch {
-            selectResult.invoke(deleteDataUseCase.invoke(articalDomainModel))
+            withContext(Dispatchers.IO) {
+                selectResult.invoke(deleteDataUseCase.invoke(articalDomainModel))
+            }
         }
     }
 }

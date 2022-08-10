@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import com.example.taskfromellco.App
@@ -16,6 +17,7 @@ import com.example.taskfromellco.presentation.one_element.OneElementFragment
 import com.example.taskfromellco.utils.MainMapper
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import com.example.taskfromellco.utils.ViewModelFactory
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FavoriteFragment : Fragment() {
@@ -34,13 +36,14 @@ class FavoriteFragment : Fragment() {
         ViewModelProvider(this, viewModelFactory)[FavoriteViewModel::class.java]
     }
     val adapterFavorite by lazy {
-        AdapterFavorite ({
-            viewModel.deleteArticle(it){
+        AdapterFavorite({
+            viewModel.deleteArticle(it) {
                 getAllList()
             }
-        },{
-            val action = FavoriteFragmentDirections.
-            actionNavigationFavoriteToOneElementFragment(MainMapper().mapArticleDomainModelToArticalModel(it))
+        }, {
+            val action = FavoriteFragmentDirections.actionNavigationFavoriteToOneElementFragment(
+                MainMapper().mapArticleDomainModelToArticalModel(it)
+            )
             findNavController().navigate(action)
         })
     }
@@ -65,28 +68,34 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setupSearchView() {
-        viewModel.setupSearchView(binding.searchViewFavorite,adapterFavorite)
+        viewModel.setupSearchView(binding.searchViewFavorite, adapterFavorite)
     }
 
     private fun setupRV() {
         with(binding.rvFavorite) {
             adapter = adapterFavorite
             setHasFixedSize(true)
-            addItemDecoration(SpaceItemDecoration(
-                MARGIN_SPACING_VALUE_34,
-                MARGIN_LEFT_VALUE_34,
-                MARGIN_RIGHT_VALUE_34
-            ))
+            addItemDecoration(
+                SpaceItemDecoration(
+                    MARGIN_SPACING_VALUE_34,
+                    MARGIN_LEFT_VALUE_34,
+                    MARGIN_RIGHT_VALUE_34
+                )
+            )
         }
 
         getAllList()
     }
+
     private fun getAllList() {
-        viewModel.loadAllList{
-            adapterFavorite.submitList(it)
+        lifecycleScope.launch {
+            viewModel.loadAllList {
+                adapterFavorite.submitList(it)
+            }
         }
     }
-    companion object{
+
+    companion object {
         private const val MARGIN_SPACING_VALUE_34 = 34
         private const val MARGIN_LEFT_VALUE_34 = 10
         private const val MARGIN_RIGHT_VALUE_34 = 10

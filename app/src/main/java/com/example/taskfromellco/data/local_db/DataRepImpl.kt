@@ -11,7 +11,7 @@ import com.example.taskfromellco.utils.AppScope
 import javax.inject.Inject
 
 @AppScope
-class DataRepImpl @Inject constructor(application: Application) : DataRep {
+open class DataRepImpl @Inject constructor(application: Application) : DataRep {
     private val mainDao = MainDataBase.getInstance(application).mainDao()
     private val mapper = MainMapper()
     suspend override fun loadData():List<ArticalDomainModel> = mapper.mapListMainModelToListEntity(mainDao.getAllData())
@@ -21,6 +21,13 @@ class DataRepImpl @Inject constructor(application: Application) : DataRep {
 //            postValue(mapper.mapMainModelToArticalDomainModel(it))
 //        }
 //    }
+
+    override fun loadText(): String {
+        return "Masadas"
+    }
+    override fun saveText(): Boolean {
+        return true
+    }
 
     suspend override fun saveData(value: ArticalDomainModel) = mainDao.saveValue(mapper.mapArticalDomainModelToMainModel(value))
 
