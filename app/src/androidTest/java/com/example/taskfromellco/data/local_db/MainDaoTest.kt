@@ -58,7 +58,7 @@ class MainDaoTest {
     fun deleteMainItem() = runBlockingTest {
         val mainModelEntity = MainModelEntity(1,"author","content","description",
             "published","title","url","urlToImage",true)
-        dao.saveValue(mainModelEntity) // сначала же нужно добавить, потому что БД очищается в @After
+        dao.saveValue(mainModelEntity) // сначала нужно добавить, потому что БД очищается в @After
         dao.deleteUser(mainModelEntity)
 
         val allMainItems = dao.getAllData().getOrAwaitValue()

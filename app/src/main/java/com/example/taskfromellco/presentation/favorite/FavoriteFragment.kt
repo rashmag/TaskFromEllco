@@ -13,6 +13,7 @@ import com.example.taskfromellco.databinding.FragmentFavoriteBinding
 import com.example.taskfromellco.utils.MainMapper
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import com.example.taskfromellco.utils.ViewModelFactory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -84,10 +85,12 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun getAllList() {
+        lifecycleScope.launch (Dispatchers.IO){
             viewModel.loadAllList {
                 it.observe(viewLifecycleOwner){
                     adapterFavorite.submitList(it)
                 }
+            }
         }
     }
 

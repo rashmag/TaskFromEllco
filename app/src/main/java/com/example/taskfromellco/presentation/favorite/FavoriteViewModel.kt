@@ -26,11 +26,13 @@ class FavoriteViewModel @Inject constructor(
     ) {
         searchViewFavorite.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
+                viewModelScope.launch {
                     loadAllList {
                         it.observe(viewLifecycleOwner) {
                             adapterFavorite.submitList(it)
                         }
                     }
+                }
                 return false
             }
         })
@@ -43,6 +45,7 @@ class FavoriteViewModel @Inject constructor(
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 articalDomainModel.clear()
+                viewModelScope.launch {
                     loadAllList {
                         it.observe(viewLifecycleOwner) {
                             it.forEach {
@@ -54,6 +57,7 @@ class FavoriteViewModel @Inject constructor(
                                 }
                             }
                             adapterFavorite.submitList(articalDomainModel)
+                        }
                     }
                 }
                 return false
@@ -61,8 +65,10 @@ class FavoriteViewModel @Inject constructor(
         })
     }
 
-    fun loadAllList(articalDomainModel: (LiveData<List<ArticalDomainModel>>) -> Unit) {
+    suspend fun loadAllList(articalDomainModel: (LiveData<List<ArticalDomainModel>>) -> Unit) {
+        withContext(Dispatchers.IO) {
             articalDomainModel.invoke(loadDataUseCase.invoke())
+        }
     }
 
 
@@ -70,6 +76,7 @@ class FavoriteViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 selectResult.invoke(deleteDataUseCase.invoke(articalDomainModel))
+                "s"
             }
         }
     }
