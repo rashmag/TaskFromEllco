@@ -1,5 +1,6 @@
 package com.example.taskfromellco.domain.usecase
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.taskfromellco.data.local_db.DataRepImpl
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -7,6 +8,7 @@ import org.mockito.Mockito
 import org.mockito.kotlin.mock
 
 class LoadTextDataUseCaseTest{
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
     @Test
     fun `text ansalta`(){
 

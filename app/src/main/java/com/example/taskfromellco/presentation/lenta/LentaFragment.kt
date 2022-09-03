@@ -35,6 +35,7 @@ class LentaFragment : Fragment() {
     private val adapterMain = AdapterLenta({
         viewModel.saveArticleModel(it)
     },{
+        it
         val action = LentaFragmentDirections.
         actionNavigationLentaToOneElementFragment(it)
         findNavController().navigate(action)

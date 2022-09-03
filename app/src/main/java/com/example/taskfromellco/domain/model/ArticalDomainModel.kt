@@ -1,7 +1,8 @@
 package com.example.taskfromellco.domain.model
 
 
-data class ArticalDomainModel(
+data class
+ArticalDomainModel(
     val id: Int = UNDEFINED_ID,
     val author: String? = null,
     val content: String? = null,

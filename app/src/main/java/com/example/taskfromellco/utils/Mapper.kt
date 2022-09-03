@@ -1,6 +1,8 @@
 package com.example.taskfromellco.utils
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import com.example.taskfromellco.data.local_db.MainModelEntity
 import com.example.taskfromellco.data.remote_db.ArticleModel
 import com.example.taskfromellco.domain.model.ArticalDomainModel
@@ -65,7 +67,9 @@ class MainMapper {
         isFavorite = articalDomainModel.isFavorite
     )
 
-    fun mapListMainModelToListEntity(list: List<MainModelEntity>) = list.map {
-        mapMainModelToArticalDomainModel(it)
+    fun mapListMainModelToListEntity(list: LiveData<List<MainModelEntity>>) = list.map {
+        it.map {
+            mapMainModelToArticalDomainModel(it)
+        }
     }
 }

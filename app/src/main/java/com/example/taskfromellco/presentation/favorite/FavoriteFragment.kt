@@ -7,13 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import com.example.taskfromellco.App
-import com.example.taskfromellco.R
 import com.example.taskfromellco.databinding.FragmentFavoriteBinding
-import com.example.taskfromellco.presentation.lenta.LentaFragmentDirections
-import com.example.taskfromellco.presentation.one_element.OneElementFragment
 import com.example.taskfromellco.utils.MainMapper
 import com.example.taskfromellco.utils.SpaceItemDecoration
 import com.example.taskfromellco.utils.ViewModelFactory
@@ -68,7 +64,7 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun setupSearchView() {
-        viewModel.setupSearchView(binding.searchViewFavorite, adapterFavorite)
+        viewModel.setupSearchView(binding.searchViewFavorite, adapterFavorite,viewLifecycleOwner)
     }
 
     private fun setupRV() {
@@ -88,10 +84,10 @@ class FavoriteFragment : Fragment() {
     }
 
     private fun getAllList() {
-        lifecycleScope.launch {
             viewModel.loadAllList {
-                adapterFavorite.submitList(it)
-            }
+                it.observe(viewLifecycleOwner){
+                    adapterFavorite.submitList(it)
+                }
         }
     }
 

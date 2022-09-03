@@ -9,7 +9,7 @@ import dagger.BindsInstance
 import dagger.Component
 
 @AppScope
-@Component(modules = [AppModule::class,ViewModelModule::class])
+@Component(modules = [AppModule::class, ViewModelModule::class])
 interface AppComponent {
 
     fun favoriteComp(): FavoriteComp.Factory

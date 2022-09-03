@@ -14,7 +14,7 @@ import javax.inject.Inject
 open class DataRepImpl @Inject constructor(application: Application) : DataRep {
     private val mainDao = MainDataBase.getInstance(application).mainDao()
     private val mapper = MainMapper()
-    suspend override fun loadData():List<ArticalDomainModel> = mapper.mapListMainModelToListEntity(mainDao.getAllData())
+    override fun loadData():LiveData<List<ArticalDomainModel>> = mapper.mapListMainModelToListEntity(mainDao.getAllData())
 
 //        MediatorLiveData<ArticalDomainModel>().apply {
 //        addSource(mainDao.getAllData()){
@@ -31,8 +31,5 @@ open class DataRepImpl @Inject constructor(application: Application) : DataRep {
 
     suspend override fun saveData(value: ArticalDomainModel) = mainDao.saveValue(mapper.mapArticalDomainModelToMainModel(value))
 
-
     suspend override fun deleteData(value: ArticalDomainModel):Int = mainDao.deleteUser(mapper.mapArticalDomainModelToMainModelDelete(value))
-
-
 }

@@ -2,6 +2,8 @@ package com.example.taskfromellco.presentation.favorite
 
 import android.util.Log
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskfromellco.domain.model.ArticalDomainModel
@@ -17,14 +19,18 @@ class FavoriteViewModel @Inject constructor(
     private val deleteDataUseCase: DeleteDataUseCase
 ) : ViewModel() {
 
-    fun setupSearchView(searchViewFavorite: SearchView, adapterFavorite: AdapterFavorite) {
+    fun setupSearchView(
+        searchViewFavorite: SearchView,
+        adapterFavorite: AdapterFavorite,
+        viewLifecycleOwner: LifecycleOwner,
+    ) {
         searchViewFavorite.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
-                viewModelScope.launch {
                     loadAllList {
-                        adapterFavorite.submitList(it)
+                        it.observe(viewLifecycleOwner) {
+                            adapterFavorite.submitList(it)
+                        }
                     }
-                }
                 return false
             }
         })
@@ -37,17 +43,17 @@ class FavoriteViewModel @Inject constructor(
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 articalDomainModel.clear()
-                viewModelScope.launch {
                     loadAllList {
-                        it.forEach {
-                            if ((it.author?.lowercase())!!.contains(
-                                    newText?.lowercase().toString()
-                                )
-                            ) {
-                                articalDomainModel.add(it)
+                        it.observe(viewLifecycleOwner) {
+                            it.forEach {
+                                if ((it.author?.lowercase())!!.contains(
+                                        newText?.lowercase().toString()
+                                    )
+                                ) {
+                                    articalDomainModel.add(it)
+                                }
                             }
-                        }
-                        adapterFavorite.submitList(articalDomainModel)
+                            adapterFavorite.submitList(articalDomainModel)
                     }
                 }
                 return false
@@ -55,10 +61,8 @@ class FavoriteViewModel @Inject constructor(
         })
     }
 
-    suspend fun loadAllList(articalDomainModel: (List<ArticalDomainModel>) -> Unit) {
-        withContext(Dispatchers.IO) {
+    fun loadAllList(articalDomainModel: (LiveData<List<ArticalDomainModel>>) -> Unit) {
             articalDomainModel.invoke(loadDataUseCase.invoke())
-        }
     }
 
 
